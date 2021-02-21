@@ -38,11 +38,18 @@ export const deletePost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   const { id } = req.params;
-  const body = req.body;
-  console.log(body);
-  // I am Updating For Now
-  // Validation Will be Added Here
+  const { title, description, creator, selectedFile, tags } = req.body;
+  console.log("body===>", req.body);
 
-  // await PostContent.findByIdAndUpdate(id);
-  res.json({ message: "Post deleted successfully." });
+  const updatedPost = {
+    creator,
+    title,
+    description,
+    tags,
+    selectedFile,
+    _id: id,
+  };
+  console.log(updatedPost);
+  await PostContent.findByIdAndUpdate(id, updatedPost, { new: true });
+  res.json({ message: "Post Updated successfully.", updatedPost });
 };

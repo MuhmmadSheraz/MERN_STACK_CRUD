@@ -2,7 +2,6 @@ const initalState = [];
 const postReducer = (state = initalState, action) => {
   switch (action.type) {
     case "FETCH_ALL_POSTS": {
-
       const data = action.payload;
       return (state = data);
     }
@@ -13,6 +12,10 @@ const postReducer = (state = initalState, action) => {
     case "DELETE_POST": {
       const data = action.payload;
       return state.filter((x) => x._id !== data);
+    }
+    case "UPDATE_POST": {
+      const data = action.payload;
+      return state.map((x) => (x._id == data._id ? data : x));
     }
 
     default:

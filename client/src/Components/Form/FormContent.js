@@ -1,22 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FileBase64 from "react-file-base64";
 import { createPost } from "../../store/actions/postAction.js";
+import { updatePost } from "../../store/actions/postAction.js";
 import "./form.css";
 
-const FormContent = () => {
+const FormContent = ({ currentId, setCurrentId }) => {
   const dispatch = useDispatch();
 
+  const allPosts = useSelector((state) => state.postReducer);
   const [postData, setPostData] = useState({
     creator: "hamza",
-    title: "my first post",
+    title: "Am i Updated",
     description: "no Dexx",
     tags: "hpuse",
     selectedFile: "zsasas",
   });
+
+  useEffect(() => {
+    console.log(currentId);
+    if (currentId) {
+      let targetPost = allPosts.find((x) => x._id === currentId);
+      setPostData(targetPost);
+    }
+  }, [currentId]);
+
   const hanldeSubmitPost = () => {
     dispatch(createPost(postData));
+  };
+  const UpdatePost = () => {
+    // console.log(postData);
+    dispatch(updatePost(currentId, postData));
+    setCurrentId(null);
+    setPostData({
+      title: "",
+      description: "",
+      creator: "",
+      tags: [],
+      selectedFile: "",
+    });
   };
   return (
     <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
@@ -83,7 +106,15 @@ const FormContent = () => {
           }
         />
 
-        <Button onClick={hanldeSubmitPost}>Submit</Button>
+        {!currentId ? (
+          <Button onClick={hanldeSubmitPost} color="success">
+            Submit
+          </Button>
+        ) : (
+          <Button onClick={UpdatePost} color="info">
+            Update
+          </Button>
+        )}
       </Form>
     </div>
   );

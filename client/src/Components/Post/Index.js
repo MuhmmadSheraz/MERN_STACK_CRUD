@@ -3,14 +3,15 @@ import Loader from "../Loader/Index.js";
 import { useSelector } from "react-redux";
 import PostCard from "../PostCard/Index.js";
 import "./postWrapper.css";
-const Index = () => {
+const Index = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) => state.postReducer);
   const [loader, setLoader] = useState(false);
   useEffect(() => {
+    console.log(post)
     if (post.length === 0) {
       setLoader(true);
-    }else{
-      setLoader(false)
+    } else {
+      setLoader(false);
     }
   }, [post, loader]);
 
@@ -20,7 +21,9 @@ const Index = () => {
         <div className="row">
           {loader && <Loader />}
           {post.map((x, index) => {
-            return <PostCard data={x} key={index} />;
+            return (
+              <PostCard data={x} key={index} setCurrentId={setCurrentId} />
+            );
           })}
         </div>
       </div>

@@ -12,7 +12,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deletePost } from "../../store/actions/postAction.js";
 
-const Example = ({ data }) => {
+const Example = ({ data, setCurrentId }) => {
   const dispatch = useDispatch();
   return (
     <div className="m-5 col-md-4">
@@ -21,8 +21,9 @@ const Example = ({ data }) => {
           top
           style={{ height: "200px", width: "inherit" }}
           src={
-            `${data.selectedFile}` ||
-            "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+            data.selectedFile
+              ? `${data.selectedFile}`
+              : "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
           }
           alt="Card image cap"
         />
@@ -32,7 +33,9 @@ const Example = ({ data }) => {
             {moment(data.createdAt).fromNow()}
           </CardSubtitle>
           <CardText>{data.description}</CardText>
-          <Button color="info m-2">Update</Button>
+          <Button color="warning m-2" onClick={() => setCurrentId(data._id)}>
+            Edit
+          </Button>
           <Button
             color="danger m-2"
             onClick={() => dispatch(deletePost(data._id))}
