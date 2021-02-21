@@ -14,9 +14,9 @@ export const getAllPost = () => async (dispatch) => {
 export const createPost = (post) => async (dispatch) => {
   console.log("I am Working 2", post);
   try {
-    const a = await createPosta(post);
-    console.log(a);
-    // dispatch({ type: "CREATE_POST", payload: data });
+    const { data } = await createPosta(post);
+    console.log("action Data===>", data);
+    dispatch({ type: "CREATE_POST", payload: data });
   } catch (error) {
     console.log(error.message);
   }

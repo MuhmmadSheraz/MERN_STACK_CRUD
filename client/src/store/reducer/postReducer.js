@@ -11,7 +11,7 @@ const postReducer = (state = initalState, action) => {
     case "CREATE_POST": {
       console.log("Reducer");
 
-      const data = action.data;
+      const data = action.payload;
       return (state = [...state, data]);
     }
 
