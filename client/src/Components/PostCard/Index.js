@@ -9,9 +9,11 @@ import {
   Button,
 } from "reactstrap";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { deletePost } from "../../store/actions/postAction.js";
 
 const Example = ({ data }) => {
-  console.log(data.createdAt);
+  const dispatch = useDispatch();
   return (
     <div className="m-5 col-md-4">
       <Card style={{ width: "100%" }}>
@@ -31,7 +33,12 @@ const Example = ({ data }) => {
           </CardSubtitle>
           <CardText>{data.description}</CardText>
           <Button color="info m-2">Update</Button>
-          <Button color="danger m-2">Delete</Button>
+          <Button
+            color="danger m-2"
+            onClick={() => dispatch(deletePost(data._id))}
+          >
+            Delete
+          </Button>
         </CardBody>
       </Card>
     </div>

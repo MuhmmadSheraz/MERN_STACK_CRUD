@@ -1,9 +1,18 @@
 import mongoose from "mongoose";
 
 const postSchema = mongoose.Schema({
-  title: String,
-  description: String,
-  creator: String,
+  title: {
+    type: String,
+    required: [true, "Title is Missing"],
+  },
+  description: {
+    type: String,
+    required: [true, "Description is Missing"],
+  },
+  creator: {
+    type: String,
+    required: [true, "Creator is Missing"],
+  },
   tags: [String],
   selectedFile: String,
   likeCount: {

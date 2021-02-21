@@ -1,4 +1,5 @@
 import PostContent from "../models/postContent.js";
+
 export const getAllPost = async (req, res) => {
   try {
     let postContent = await PostContent.find();
@@ -14,21 +15,34 @@ export const getAllPost = async (req, res) => {
       success: false,
       message: err.message,
     });
-    console.log("error While Getting Posts", err.message);
   }
 };
 export const createPost = async (req, res) => {
   let body = req.body;
-  // const newPost = new PostContent(body);
-  // const newPostMessage = new PostMessage({ title, message, selectedFile, creator, tags })
-  console.log(body);
   try {
-    // await new newPost.save(); //1
     const newPost = await PostContent.create(body); //2
     res.status(201).json(newPost);
   } catch (err) {
-    res
-      .status(400)
-      .json({ success: false, message: "Create Post Server Error" });
+    res.status(400).json({ message: "err.message" });
   }
+};
+
+export const deletePost = async (req, res) => {
+  const { id } = req.params;
+
+  // Validation Will be Added Here
+
+  await PostContent.findByIdAndDelete(id);
+  res.json({ message: "Post deleted successfully." });
+};
+
+export const updatePost = async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  console.log(body);
+  // I am Updating For Now
+  // Validation Will be Added Here
+
+  // await PostContent.findByIdAndUpdate(id);
+  res.json({ message: "Post deleted successfully." });
 };

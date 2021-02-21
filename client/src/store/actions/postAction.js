@@ -1,23 +1,27 @@
-import { createPosta } from "../../api/index.js";
-import { fetchPosts } from "../../api/index.js";
+import { createPosta, fetchPosts, deletePosta } from "../../api/index.js";
 export const getAllPost = () => async (dispatch) => {
+  console.log("Fetching")
   try {
-    console.log("Get Post");
-    const data = await fetchPosts();
-    console.log(data.data.data);
-
-    dispatch({ type: "FETCH_ALL_POSTS", payload: data.data.data });
+    const {data} = await fetchPosts();
+    
+    dispatch({ type: "FETCH_ALL_POSTS", payload: data.data });
   } catch (error) {
     console.log(error.message);
   }
 };
 export const createPost = (post) => async (dispatch) => {
-  console.log("I am Working 2", post);
   try {
     const { data } = await createPosta(post);
-    console.log("action Data===>", data);
     dispatch({ type: "CREATE_POST", payload: data });
   } catch (error) {
     console.log(error.message);
+  }
+};
+export const deletePost = (Id) => async (dispatch) => {
+  try {
+    await deletePosta(Id);
+    dispatch({ type: "DELETE_POST", payload: Id });
+  } catch (err) {
+    console.log(err.message);
   }
 };
